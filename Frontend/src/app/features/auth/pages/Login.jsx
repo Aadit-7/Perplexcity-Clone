@@ -1,15 +1,33 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router";
+import { useAuth } from "../hook/useAuth";
+import { useSelector } from "react-redux";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const user = useSelector((state) => state.auth.user);
+  const loading = useSelector((state) => state.auth.loading);
+
+  const { handleLogin } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login submitted:", { email, password });
+
+    const payload = {
+      email,
+      password,
+    };
+
+    await handleLogin(payload);
+    navigate("/");
   };
+
+  if (!loading && user) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black">
@@ -75,12 +93,12 @@ const Login = () => {
           {/* Toggle Link */}
           <p className="text-center mt-6 text-gray-400">
             Don't have an account?{" "}
-            <button
-              onClick={() => navigate("/register")}
+            <Link
+              to={"/register"}
               className="font-semibold transition duration-200 hover:underline text-[#07c2cf]"
             >
               Register here
-            </button>
+            </Link>
           </p>
         </div>
       </div>

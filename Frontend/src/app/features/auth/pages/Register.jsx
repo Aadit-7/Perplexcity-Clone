@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -96,12 +96,12 @@ const Register = () => {
           {/* Toggle Link */}
           <p className="text-center mt-6 text-gray-400">
             Already have an account?{" "}
-            <button
-              onClick={() => navigate("/login")}
+            <Link
+              to={"/login"}
               className="font-semibold transition duration-200 hover:underline text-[#07c2cf]"
             >
               Login here
-            </button>
+            </Link>
           </p>
         </div>
       </div>
